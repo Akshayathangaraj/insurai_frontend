@@ -1,0 +1,9 @@
+# Force LF line endings for JSON files
+*.json text eol=lf
+
+# Handle JS/TS files
+*.js text eol=lf
+*.ts text eol=lf
+
+# Let Git manage line endings automatically for others
+* text=auto
