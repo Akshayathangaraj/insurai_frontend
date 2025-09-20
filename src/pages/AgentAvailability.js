@@ -3,21 +3,41 @@ import {
   getAgentAvailability,
   setAgentAvailability,
   deleteAgentAvailability,
+  getAllAgents,
 } from "../utils/api";
 import "./AgentAvailability.css";
 
 export default function AgentAvailability() {
+  const [agents, setAgents] = useState([]);
+  const [selectedAgent, setSelectedAgent] = useState("");
   const [slots, setSlots] = useState([]);
   const [newSlot, setNewSlot] = useState({ date: "", time: "" });
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    fetchSlots();
+    fetchAgents();
   }, []);
 
-  const fetchSlots = async () => {
+  useEffect(() => {
+    if (selectedAgent) fetchSlots(selectedAgent);
+  }, [selectedAgent]);
+
+  // Fetch all agents
+  const fetchAgents = async () => {
     try {
-      const data = await getAgentAvailability();
+      const data = await getAllAgents();
+      setAgents(Array.isArray(data) ? data : []);
+      if (data.length > 0) setSelectedAgent(data[0].id); // default first agent
+    } catch (err) {
+      console.error("Error fetching agents:", err);
+      setMessage("Failed to fetch agents.");
+    }
+  };
+
+  // Fetch slots for selected agent
+  const fetchSlots = async (agentId) => {
+    try {
+      const data = await getAgentAvailability(agentId);
       setSlots(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Error fetching slots:", err);
@@ -30,23 +50,22 @@ export default function AgentAvailability() {
       setMessage("Please select both date and time.");
       return;
     }
-
     try {
-      await setAgentAvailability({ ...newSlot, status: "Available" });
+      await setAgentAvailability(selectedAgent, { ...newSlot, status: "Available" });
       setMessage("Slot added successfully!");
       setNewSlot({ date: "", time: "" });
-      fetchSlots();
+      fetchSlots(selectedAgent);
     } catch (err) {
       console.error("Error adding slot:", err);
       setMessage("Error adding slot.");
     }
   };
 
-  const handleDeleteSlot = async (id) => {
+  const handleDeleteSlot = async (slotId) => {
     try {
-      await deleteAgentAvailability(id);
+      await deleteAgentAvailability(selectedAgent, slotId);
       setMessage("Slot deleted successfully!");
-      fetchSlots();
+      fetchSlots(selectedAgent);
     } catch (err) {
       console.error("Error deleting slot:", err);
       setMessage("Error deleting slot.");
@@ -60,6 +79,16 @@ export default function AgentAvailability() {
       {message && <div className="message">{message}</div>}
 
       <div className="slot-form">
+        <select
+          value={selectedAgent}
+          onChange={(e) => setSelectedAgent(e.target.value)}
+        >
+          {agents.map((agent) => (
+            <option key={agent.id} value={agent.id}>
+              {agent.name}
+            </option>
+          ))}
+        </select>
         <input
           type="date"
           value={newSlot.date}
@@ -80,7 +109,7 @@ export default function AgentAvailability() {
           <p className="empty-text">No availability slots yet.</p>
         ) : (
           slots.map((s, idx) => (
-            <div className="slot-card" key={idx}>
+            <div className="slot-card" key={s.id || idx}>
               <div>
                 <span className="slot-date">{s.date}</span> at{" "}
                 <span className="slot-time">{s.time}</span>
@@ -94,7 +123,7 @@ export default function AgentAvailability() {
               </div>
               <button
                 className="btn-delete"
-                onClick={() => handleDeleteSlot(s.id || idx)}
+                onClick={() => handleDeleteSlot(s.id)}
               >
                 Delete
               </button>

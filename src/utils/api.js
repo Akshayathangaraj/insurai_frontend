@@ -1,91 +1,146 @@
 import axios from "axios";
 
-const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:8080";
+// ✅ Base URL (can be set in .env file as REACT_APP_API_BASE=http://localhost:8080)
+const API_BASE = process.env.REACT_APP_API_BASE || "";
 
-// ---------------- AUTH ----------------
+// ---------------- AXIOS INSTANCE WITH TOKEN ----------------
+const API = axios.create({ baseURL: API_BASE });
 
-// Signup request
+// Add JWT token to requests if it exists
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("adminToken") || localStorage.getItem("token"); // admin or user token
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// ---------------- USER AUTH ----------------
 export const signupUser = async (userData) => {
-  const res = await axios.post(`${API_BASE}/api/auth/signup`, userData);
+  const res = await API.post("/api/auth/signup", userData);
   return res.data;
 };
 
-// Login request
 export const loginUser = async (email, password) => {
-  const res = await axios.post(`${API_BASE}/api/auth/login`, { email, password });
+  const res = await API.post("/api/auth/login", { email, password });
+  return res.data;
+};
+
+// ---------------- ADMIN AUTH ----------------
+export const signupAdmin = async (adminData) => {
+  const res = await API.post("/api/admin/auth/signup", adminData);
+  return res.data;
+};
+
+export const loginAdmin = async (email, password) => {
+  const res = await API.post("/api/admin/auth/login", { email, password });
   return res.data;
 };
 
 // ---------------- EMPLOYEE / USER ----------------
-
-// Get profile details
 export const getProfile = async (userId) => {
-  const res = await axios.get(`${API_BASE}/api/employees/${userId}`);
+  const res = await API.get(`/api/employees/${userId}`);
   return res.data;
 };
 
-// Update profile details
 export const updateProfile = async (userId, updateData) => {
-  const res = await axios.put(`${API_BASE}/api/employees/${userId}`, updateData);
+  const res = await API.put(`/api/auth/updateProfile/${userId}`, updateData);
   return res.data;
 };
 
-// ---------------- INSURANCE ----------------
+export const uploadProfilePhoto = async (userId, file) => {
+  const formData = new FormData();
+  formData.append("file", file);
 
-// Fetch all available insurances
+  const res = await API.post(
+    `/api/auth/${userId}/uploadProfilePhoto`,
+    formData,
+    { headers: { "Content-Type": "multipart/form-data" } }
+  );
+  return res.data;
+};
+
+// ---------------- INSURANCE (User Side) ----------------
 export const getInsurances = async () => {
-  const res = await axios.get(`${API_BASE}/api/insurance`);
+  const res = await API.get("/api/insurance");
   return res.data;
 };
 
-// Claim an insurance
 export const claimInsurance = async (userId, policyId) => {
-  const res = await axios.post(`${API_BASE}/api/employees/${userId}/claims`, { policyId });
+  const res = await API.post(`/api/employees/${userId}/claims`, { policyId });
   return res.data;
 };
 
 // ---------------- AGENT AVAILABILITY ----------------
-
-// Add or update agent availability
 export const setAgentAvailability = async (agentId, availabilityData) => {
-  const res = await axios.post(`${API_BASE}/api/agents/${agentId}/availability`, availabilityData);
+  const res = await API.post(`/api/agents/${agentId}/availability`, availabilityData);
   return res.data;
 };
 
-// Fetch availability for an agent
 export const getAgentAvailability = async (agentId) => {
-  const res = await axios.get(`${API_BASE}/api/agents/${agentId}/availability`);
+  const res = await API.get(`/api/agents/${agentId}/availability`);
   return res.data;
 };
 
-// Delete a specific slot
-export const deleteAgentAvailability = async (slotId) => {
-  const res = await axios.delete(`${API_BASE}/api/agents/availability/${slotId}`);
+export const getAllAgents = async () => {
+  const res = await API.get(`/api/agents`);
+  return res.data;
+};
+
+export const deleteAgentAvailability = async (agentId, slotId) => {
+  const res = await API.delete(`/api/agents/${agentId}/availability/${slotId}`);
   return res.data;
 };
 
 // ---------------- APPOINTMENTS ----------------
-
-// Schedule an appointment with an agent
 export const scheduleAppointment = async (appointmentData) => {
-  const res = await axios.post(`${API_BASE}/api/appointments`, appointmentData);
+  const res = await API.post(`/api/appointments`, appointmentData);
   return res.data;
 };
 
-// Fetch appointments for a user
 export const getUserAppointments = async (userId) => {
-  const res = await axios.get(`${API_BASE}/api/appointments/user/${userId}`);
+  const res = await API.get(`/api/appointments/user/${userId}`);
   return res.data;
 };
 
-// Fetch appointments for an agent
 export const getAgentAppointments = async (agentId) => {
-  const res = await axios.get(`${API_BASE}/api/appointments/agent/${agentId}`);
+  const res = await API.get(`/api/appointments/agent/${agentId}`);
   return res.data;
 };
 
-// Cancel an appointment
 export const cancelAppointment = async (appointmentId) => {
-  const res = await axios.delete(`${API_BASE}/api/appointments/${appointmentId}`);
+  const res = await API.delete(`/api/appointments/${appointmentId}`);
+  return res.data;
+};
+
+// ---------------- ADMIN: INSURANCE POLICIES ----------------
+export const getAllPolicies = async () => {
+  const res = await API.get("/api/insurance");
+  return res.data;
+};
+
+export const createPolicy = async (policyData) => {
+  const res = await API.post("/api/insurance", policyData);
+  return res.data;
+};
+
+export const updatePolicy = async (policyId, policyData) => {
+  const res = await API.put(`/api/insurance/${policyId}`, policyData);
+  return res.data;
+};
+
+export const deletePolicy = async (policyId) => {
+  const res = await API.delete(`/api/insurance/${policyId}`);
+  return res.data;
+};
+
+// ---------------- ADMIN: EMPLOYEE MANAGEMENT ----------------
+export const getAllEmployees = async () => {
+  const res = await API.get("/api/employees");
+  return res.data;
+};
+
+export const assignPolicyToEmployee = async (employeeId, policyId) => {
+  const res = await API.post(`/api/employees/${employeeId}/assignPolicy/${policyId}`);
   return res.data;
 };

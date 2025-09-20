@@ -1,0 +1,130 @@
+.profile-page {
+  font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+  background: #f4f6fb;
+  min-height: 100vh;
+  padding: 30px;
+  color: #2d3748;
+}
+
+/* ---------------- Header ---------------- */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  margin-bottom: 40px;
+}
+.profile-dp {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid white;
+  object-fit: cover;
+}
+.profile-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.profile-header p {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* ---------------- Layout ---------------- */
+.profile-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* ---------------- Cards ---------------- */
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 30px;
+  max-width: 700px;
+  width: 100%;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+.card h2 {
+  color: #1a202c;
+  font-weight: 700;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #2575fc;
+  padding-bottom: 10px;
+}
+
+/* ---------------- Form ---------------- */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.profile-form label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #2d3748;
+}
+.profile-form input,
+.profile-form textarea {
+  padding: 12px 14px;
+  border: 1px solid #cbd5e0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background: #f9fafc;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.profile-form input:focus,
+.profile-form textarea:focus {
+  border-color: #2575fc;
+  box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.25);
+  outline: none;
+}
+textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* ---------------- Buttons ---------------- */
+.primary-btn {
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.primary-btn:hover {
+  background: linear-gradient(135deg, #1a56c9, #4b0fa6);
+  transform: scale(1.03);
+}
+
+/* ---------------- Messages ---------------- */
+.message {
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+.message.success {
+  background: #e6ffed;
+  color: #1b8a3e;
+  border-left: 5px solid #1b8a3e;
+}
+.message.error {
+  background: #ffe6e6;
+  color: #c53030;
+  border-left: 5px solid #c53030;
+}

@@ -1,45 +1,50 @@
-/* Page background */
+/* General page layout */
 .login-page {
   min-height: 100vh;
+  background: #f7f8fa; /* same clean neutral background */
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  margin-top: -160px; /* pull form up closer */
+  padding-top: 0;
 }
 
-/* Card */
+/* Card container */
 .login-card {
-  background: #fff;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+  background: #ffffff;
+  padding: 40px 35px;
+  border-radius: 14px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 400px;
+  max-width: 460px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .login-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 15px 35px rgba(0,0,0,0.3);
+  transform: translateY(-3px);
+  box-shadow: 0px 12px 28px rgba(0, 0, 0, 0.12);
 }
 
 /* Title */
 .login-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
+  font-weight: 600;
   margin-bottom: 25px;
-  color: #333;
+  color: #222;
+  letter-spacing: -0.5px;
 }
 
-/* Success and error messages */
+/* Success & Error messages */
 .success-msg {
-  color: green;
+  color: #1a7f37;
+  font-weight: 500;
   margin-bottom: 15px;
 }
-
 .error {
-  color: red;
+  color: #d93025;
   font-size: 0.85rem;
   margin-top: 5px;
   display: block;
@@ -47,45 +52,51 @@
 
 /* Form groups */
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   text-align: left;
 }
 
 .form-group input {
   width: 100%;
-  padding: 12px 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  transition: border 0.25s ease, box-shadow 0.25s ease;
+  background: #fafafa;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0px 0px 8px rgba(102,126,234,0.5);
+  border-color: #0b5cf6;
+  box-shadow: 0 0 0 3px rgba(11, 92, 246, 0.15);
+  background: #fff;
 }
 
-/* Button */
+/* Button styles */
 .login-btn {
-  padding: 14px 0;
   width: 100%;
-  background: #667eea;
+  padding: 14px 0;
+  background: #0b5cf6; /* same bold blue as signup */
   border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 1.1rem;
-  font-weight: bold;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.25s ease, transform 0.15s ease;
 }
 
 .login-btn:hover {
-  background: #5a67d8;
-  transform: scale(1.05);
+  background: #0946c3;
+  transform: translateY(-1px);
 }
 
-/* Form actions */
+.login-btn:active {
+  transform: translateY(0);
+}
+
+/* Extra links (forgot password, etc.) */
 .form-actions {
   display: flex;
   justify-content: space-between;
@@ -93,13 +104,13 @@
   margin-top: 12px;
 }
 
-.forgot-link {
+.link {
   font-size: 0.9rem;
-  color: #667eea;
+  color: #0b5cf6;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
-.forgot-link:hover {
-  color: #5a67d8;
+.link:hover {
+  color: #0946c3;
 }

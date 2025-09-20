@@ -91,3 +91,41 @@
   background: #c53030;
   transform: scale(1.05);
 }
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.profile-form div {
+  margin-bottom: 12px;
+}
+
+.profile-form label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.profile-form input,
+.profile-form textarea {
+  width: 100%;
+  padding: 8px;
+}
+.profile-dp {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4a90e2;
+  margin-bottom: 15px;
+}
+
+.profile-dp.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ddd;
+  color: #555;
+  font-size: 14px;
+}
